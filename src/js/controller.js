@@ -4,6 +4,7 @@ import 'regenerator-runtime/runtime';
 import state, { getRecipe } from '../model';
 import { renderRecipe } from '../views/recipeView';
 import { spinner } from '../views/spinner';
+import { renderError } from '../views/spinner';
 import { addHandlerRender } from '../views/recipeView';
 
 // console.log(icons, 'tested');
@@ -190,6 +191,8 @@ const showRecipe = async function () {
   } catch (err) {
     //alert(err);
     console.log(err);
+
+    renderError(err);
   }
 };
 //['hashchange', 'load'].forEach(ev => window.addEventListener(ev, showRecipe));

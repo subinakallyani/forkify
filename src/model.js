@@ -7,7 +7,7 @@ export default state = {
 
 export async function getRecipe(id) {
   try {
-    const data = await getJSON(`${API_URL}/${id}`);
+    const data = await getJSON(`${API_URL}${id}`);
     // const res = await fetch(`${API_URL}/${id}`);
     // //'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcc40'
     // //console.log(res);
@@ -32,4 +32,16 @@ export async function getRecipe(id) {
   } catch (err) {
     console.log(err);
   }
+  throw err;
 }
+
+export async function searchResult(search) {
+  try {
+    const searchData = await getJSON(`${API_URL}?search=${search}`);
+    console.log(searchData, 'hji');
+  } catch (err) {
+    console.log(err);
+  }
+  //throw err;
+}
+searchResult('pizza');

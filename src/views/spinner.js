@@ -8,3 +8,14 @@ export function spinner(spinnerContainer) {
   spinnerContainer.innerHTML = '';
   spinnerContainer.insertAdjacentHTML('afterbegin', spin);
 }
+export function renderError(message) {
+  const error = `
+  <div class="error">;
+  <div>
+  <svg>
+    <use href="${icons}#icon-alert-triangle"></use>
+  </svg>
+</div>
+<p>${message}</p>
+</div>`;
+}
