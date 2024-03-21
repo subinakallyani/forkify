@@ -1,7 +1,7 @@
 import icons from 'url:../img/icons.svg';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import state, { getRecipe } from '../model';
+import state, { getRecipe, searchResult } from '../model';
 import { renderRecipe } from '../views/recipeView';
 import { spinner } from '../views/spinner';
 import { renderError } from '../views/spinner';
@@ -51,7 +51,7 @@ const timeout = function (s) {
 //   spinnerContainer.innerHTML = '';
 //   spinnerContainer.insertAdjacentHTML('afterbegin', spin);
 // }
-const showRecipe = async function () {
+async function showRecipe() {
   try {
     const id = window.location.hash.slice(1);
     console.log(id);
@@ -192,9 +192,16 @@ const showRecipe = async function () {
     //alert(err);
     console.log(err);
 
-    renderError(err);
+    renderError();
   }
-};
+}
+// async function searchDataResult() {
+//   try {
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+//await searchResult('pizza');
 //['hashchange', 'load'].forEach(ev => window.addEventListener(ev, showRecipe));
 addHandlerRender(showRecipe);
 //window.addEventListener('hashchange', showRecipe);

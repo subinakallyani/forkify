@@ -1,4 +1,6 @@
 import icons from '../img/icons.svg';
+const recipeContainer = document.querySelector('.recipe');
+err = 'We could not find that recipe, Please try another';
 export function spinner(spinnerContainer) {
   const spin = ` <div class="spinner">
       <svg>
@@ -8,7 +10,7 @@ export function spinner(spinnerContainer) {
   spinnerContainer.innerHTML = '';
   spinnerContainer.insertAdjacentHTML('afterbegin', spin);
 }
-export function renderError(message) {
+export function renderError(message = err) {
   const error = `
   <div class="error">;
   <div>
@@ -18,4 +20,6 @@ export function renderError(message) {
 </div>
 <p>${message}</p>
 </div>`;
+  recipeContainer.innerHTML = '';
+  recipeContainer.insertAdjacentHTML('afterbegin', error);
 }
