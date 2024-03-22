@@ -42,9 +42,9 @@ export async function searchResult(search) {
   try {
     state.search.searchReq = search;
     const searchData = await getJSON(`${API_URL}?search=${search}`);
-    console.log(searchData, 'hji');
+    //console.log(searchData, 'hji');
 
-    state.search.result = searchData.data.recipes.map(ing => {
+    state.search.results = searchData.data.recipes.map(ing => {
       return {
         id: ing.id,
         image: ing.image_url,
@@ -52,7 +52,7 @@ export async function searchResult(search) {
         title: ing.title,
       };
     });
-    console.log(state.search.result);
+    //console.log(state.search.results, 'kkljo');
   } catch (err) {
     //console.log(err);
     throw err;
