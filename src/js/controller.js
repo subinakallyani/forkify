@@ -6,6 +6,8 @@ import { renderRecipe } from '../views/recipeView';
 import { spinner } from '../views/spinner';
 import { renderError } from '../views/spinner';
 import { addHandlerRender } from '../views/recipeView';
+import { searchResult } from '../model';
+import { searchResultDisplay } from '../views/results';
 
 // console.log(icons, 'tested');
 
@@ -13,6 +15,7 @@ const recipeContainer = document.querySelector('.recipe');
 const searchContainer = document.querySelector('.search');
 const searchBox = document.querySelector('.search__field');
 const searchResults = document.querySelector('.results');
+
 //const searchButton = document.querySelector('.search__btn');
 // searchBox.value = 'ssss';
 // console.log('aaaa', searchBox.value);
@@ -215,33 +218,34 @@ searchContainer.addEventListener('submit', async e => {
   spinner(searchResults);
   await searchDataResult(searchBox.value);
   console.log(e, 'sdf', state.search.results);
+  searchResultDisplay(state.search.results);
 
-  const searchResult = state.search.results
-    .map(item => {
-      console.log(item, 'hhhh');
-      return ` 
-    <li class="preview">
-            <a class="preview__link preview__link--active" href="#${item.id}">
-              <figure class="preview__fig">
-                <img src="${item.image}" alt="Test" />
-              </figure>
-              <div class="preview__data">
-                <h4 class="preview__title">${item.title} ...</h4>
-                <p class="preview__publisher">${item.publisher}</p>
-                <div class="preview__user-generated">
-                  <svg>
-                    <use href="${icons}.svg#icon-user"></use>
-                  </svg>
-                </div>
-              </div>
-            </a>
-          </li>`;
-    })
-    .join('');
-  //console.log(searchResult);
-  searchResults.innerHTML = '';
-  searchResults.insertAdjacentHTML('afterbegin', searchResult);
-  searchBox.value = '';
+  // const searchResult = state.search.results
+  //   .map(item => {
+  //     console.log(item, 'hhhh');
+  //     return `
+  //   <li class="preview">
+  //           <a class="preview__link preview__link--active" href="#${item.id}">
+  //             <figure class="preview__fig">
+  //               <img src="${item.image}" alt="Test" />
+  //             </figure>
+  //             <div class="preview__data">
+  //               <h4 class="preview__title">${item.title} ...</h4>
+  //               <p class="preview__publisher">${item.publisher}</p>
+  //               <div class="preview__user-generated">
+  //                 <svg>
+  //                   <use href="${icons}.svg#icon-user"></use>
+  //                 </svg>
+  //               </div>
+  //             </div>
+  //           </a>
+  //         </li>`;
+  //   })
+  //   .join('');
+  // //console.log(searchResult);
+  // searchResults.innerHTML = '';
+  // searchResults.insertAdjacentHTML('afterbegin', searchResult);
+  // searchBox.value = '';
 });
 
 // searchButton.addEventListener('click', async () => {
