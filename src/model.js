@@ -59,4 +59,3 @@ export async function searchResult(search) {
   }
   //throw err;
 }
-//searchResult('pizza');
