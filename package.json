@@ -5,7 +5,7 @@
   "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html -d dist"
+    "build": "parcel build index.html"
   },
   "author": "Subina",
   "license": "ISC",
