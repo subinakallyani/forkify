@@ -4,8 +4,9 @@ const searchResults = document.querySelector('.results');
 const searchBox = document.querySelector('.search__field');
 
 export function searchResultDisplay(results) {
+  let displayItem = '';
   if (results.length === 0) {
-    const errDiv = `<div class="error">
+    displayItem = `<div class="error">
     <div>
       <svg>
         <use href="${icons}#icon-alert-triangle"></use>
@@ -13,10 +14,8 @@ export function searchResultDisplay(results) {
     </div>
     <p>${searchErrMsg}</p>
   </div>`;
-    searchResults.innerHTML = '';
-    searchResults.insertAdjacentHTML('afterbegin', errDiv);
   } else {
-    const displayItem = results
+    displayItem = results
       .map(item => {
         return ` 
 <li class="preview">
@@ -33,9 +32,9 @@ export function searchResultDisplay(results) {
       </li>`;
       })
       .join('');
-    searchResults.innerHTML = '';
-    searchResults.insertAdjacentHTML('afterbegin', displayItem);
   }
+  searchResults.innerHTML = '';
+  searchResults.insertAdjacentHTML('afterbegin', displayItem);
 
   searchBox.value = '';
 }
