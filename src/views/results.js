@@ -11,15 +11,13 @@ export function searchResultDisplay(results) {
         <use href="${icons}#icon-alert-triangle"></use>
       </svg>
     </div>
-    <p>No recipes found for your query. Please try again!</p>
+    <p>${searchErrMsg}</p>
   </div>`;
     searchResults.innerHTML = '';
     searchResults.insertAdjacentHTML('afterbegin', errDiv);
   } else {
-    //console.log(results, 'ggfd');
     const displayItem = results
       .map(item => {
-        console.log(item, 'hhhh');
         return ` 
 <li class="preview">
         <a class="preview__link" href="#${item.id}">
@@ -38,8 +36,6 @@ export function searchResultDisplay(results) {
     searchResults.innerHTML = '';
     searchResults.insertAdjacentHTML('afterbegin', displayItem);
   }
-
-  //console.log(searchResult);
 
   searchBox.value = '';
 }

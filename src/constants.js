@@ -1,1 +1,2 @@
-export const searchErrMsg = 'No item Found!';
+export const searchErrMsg =
+  'No recipes found for your query. Please try again!';
