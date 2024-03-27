@@ -7,10 +7,12 @@ const previousBtn = document.querySelector('.pagination__btn--prev');
 let arrLength = 0;
 let pageNumber = 0;
 let pageOffset = 10;
-
+let numberOfPages = 0;
 export function searchResultDisplay(results) {
   let displayItem = '';
   arrLength = results.length;
+  numberOfPages = Math.ceil(arrLength / pageOffset);
+  buttonStateHandler();
   // console.log(arrLength, 'kkk');
 
   if (results.length === 0) {
@@ -57,17 +59,32 @@ previousBtn.addEventListener('click', previousButtonHandler);
 function nextButtonHandler() {
   pageNumber = pageNumber + 1;
 
-  const numberOfPages = Math.ceil(arrLength / pageOffset);
-  nextBtn.disabled = pageNumber === numberOfPages - 1 ? true : false;
-  //console.log(numberOfPages, 'jjjjj');
-
-  //console.log(state.search.results, 'mmmmm');
+  buttonStateHandler();
 
   searchResultDisplay(state.search.results);
 }
 function previousButtonHandler() {
   pageNumber = pageNumber - 1;
-  previousBtn.disabled = pageNumber === 0 ? true : false;
+  buttonStateHandler();
 
   searchResultDisplay(state.search.results);
+}
+function buttonStateHandler() {
+  previousBtn.querySelector('.page-number').innerHTML = `Page ${pageNumber}`;
+  nextBtn.querySelector('.page-number').innerHTML = `Page ${pageNumber + 2}`;
+  //previousBtn.disabled = pageNumber === 0 ? true : false;
+  //console.log(pageNumber, 'hgf');
+  if (pageNumber === 0) {
+    nextBtn.classList.remove('invisible');
+    previousBtn.classList.add('invisible');
+  } else {
+    previousBtn.classList.remove('invisible');
+  }
+  if (pageNumber === numberOfPages - 1) {
+    nextBtn.classList.add('invisible');
+  } else {
+    nextBtn.classList.remove('invisible');
+  }
+
+  // nextBtn.disabled = pageNumber === numberOfPages - 1 ? true : false;
 }
