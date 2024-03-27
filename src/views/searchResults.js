@@ -2,9 +2,17 @@ import icons from '../img/icons.svg';
 import { searchErrMsg } from '../constants';
 const searchResults = document.querySelector('.results');
 const searchBox = document.querySelector('.search__field');
+const nextBtn = document.querySelector('.pagination__btn--next');
+const previousBtn = document.querySelector('.pagination__btn--prev');
+let arrLength = 0;
+let pageNumber = 0;
+let pageOffset = 10;
 
 export function searchResultDisplay(results) {
   let displayItem = '';
+  arrLength = results.length;
+  // console.log(arrLength, 'kkk');
+
   if (results.length === 0) {
     displayItem = `<div class="error">
     <div>
@@ -15,7 +23,11 @@ export function searchResultDisplay(results) {
     <p>${searchErrMsg}</p>
   </div>`;
   } else {
+    let startIndex = pageNumber * pageOffset;
+    let endIndex = startIndex + pageOffset;
+
     displayItem = results
+      .slice(startIndex, endIndex)
       .map(item => {
         return ` 
 <li class="preview">
@@ -37,4 +49,25 @@ export function searchResultDisplay(results) {
   searchResults.insertAdjacentHTML('afterbegin', displayItem);
 
   searchBox.value = '';
+}
+
+nextBtn.addEventListener('click', nextButtonHandler);
+previousBtn.addEventListener('click', previousButtonHandler);
+
+function nextButtonHandler() {
+  pageNumber = pageNumber + 1;
+
+  const numberOfPages = Math.ceil(arrLength / pageOffset);
+  nextBtn.disabled = pageNumber === numberOfPages - 1 ? true : false;
+  //console.log(numberOfPages, 'jjjjj');
+
+  //console.log(state.search.results, 'mmmmm');
+
+  searchResultDisplay(state.search.results);
+}
+function previousButtonHandler() {
+  pageNumber = pageNumber - 1;
+  previousBtn.disabled = pageNumber === 0 ? true : false;
+
+  searchResultDisplay(state.search.results);
 }
