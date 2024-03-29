@@ -73,18 +73,9 @@ function buttonStateHandler() {
   previousBtn.querySelector('.page-number').innerHTML = `Page ${pageNumber}`;
   nextBtn.querySelector('.page-number').innerHTML = `Page ${pageNumber + 2}`;
   //previousBtn.disabled = pageNumber === 0 ? true : false;
-  //console.log(pageNumber, 'hgf');
-  if (pageNumber === 0) {
-    nextBtn.classList.remove('invisible');
-    previousBtn.classList.add('invisible');
-  } else {
-    previousBtn.classList.remove('invisible');
-  }
-  if (pageNumber === numberOfPages - 1) {
-    nextBtn.classList.add('invisible');
-  } else {
-    nextBtn.classList.remove('invisible');
-  }
 
+  nextBtn.classList.toggle('invisible', pageNumber === 0);
+  previousBtn.classList.toggle('invisible', pageNumber !== 0);
+  nextBtn.classList.toggle('invisible', pageNumber === numberOfPages - 1);
   // nextBtn.disabled = pageNumber === numberOfPages - 1 ? true : false;
 }
