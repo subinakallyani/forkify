@@ -7,7 +7,7 @@ import { spinner } from '../views/spinner';
 import { renderError } from '../views/spinner';
 import { addHandlerRender } from '../views/recipeView';
 import { searchResult } from '../model';
-import { searchResultDisplay } from '../views/results';
+import { searchResultDisplay } from '../views/searchResults';
 
 // console.log(icons, 'tested');
 
@@ -63,13 +63,13 @@ const timeout = function (s) {
 async function showRecipe() {
   try {
     const id = window.location.hash.slice(1);
-    console.log(id);
+
     if (!id) return;
 
     spinner(recipeContainer);
     await getRecipe(id);
     const { recipe } = state;
-    //console.log(recipe, 'text', state);
+
     renderRecipe(recipe);
 
     // const res = await fetch(
@@ -217,7 +217,7 @@ searchContainer.addEventListener('submit', async e => {
   e.preventDefault();
   spinner(searchResults);
   await searchDataResult(searchBox.value);
-  console.log(e, 'sdf', state.search.results);
+  // console.log(e, 'sdf', state.search.results);
   searchResultDisplay(state.search.results);
 
   // const searchResult = state.search.results
