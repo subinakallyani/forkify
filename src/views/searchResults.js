@@ -12,6 +12,7 @@ export function searchResultDisplay(results) {
   let displayItem = '';
   arrLength = results.length;
   numberOfPages = Math.ceil(arrLength / pageOffset);
+  console.log(pageNumber, 'xya');
   buttonStateHandler();
   // console.log(arrLength, 'kkk');
 
@@ -73,9 +74,20 @@ function buttonStateHandler() {
   previousBtn.querySelector('.page-number').innerHTML = `Page ${pageNumber}`;
   nextBtn.querySelector('.page-number').innerHTML = `Page ${pageNumber + 2}`;
   //previousBtn.disabled = pageNumber === 0 ? true : false;
-
-  nextBtn.classList.toggle('invisible', pageNumber === 0);
-  previousBtn.classList.toggle('invisible', pageNumber !== 0);
-  nextBtn.classList.toggle('invisible', pageNumber === numberOfPages - 1);
+  if (pageNumber === 0) {
+    nextBtn.classList.remove('invisible');
+    previousBtn.classList.add('invisible');
+  } else {
+    previousBtn.classList.remove('invisible');
+  }
+  if (pageNumber === numberOfPages - 1) {
+    nextBtn.classList.add('invisible');
+  } else {
+    nextBtn.classList.remove('invisible');
+  }
+  console.log(pageNumber, 'mmmm');
+  // nextBtn.classList.toggle('invisible', pageNumber === 0);
+  // previousBtn.classList.toggle('invisible', pageNumber !== 0);
+  // nextBtn.classList.toggle('invisible', pageNumber === numberOfPages - 1);
   // nextBtn.disabled = pageNumber === numberOfPages - 1 ? true : false;
 }
