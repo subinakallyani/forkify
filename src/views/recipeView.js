@@ -3,7 +3,10 @@ import { Fraction } from 'fractional';
 import { renderError } from './spinner';
 console.log({ Fraction }, 'yyyy');
 const recipeContainer = document.querySelector('.recipe');
+
 export function renderRecipe(recipe) {
+  let servings = recipe.servings;
+
   const html = `
 <figure class="recipe__fig">
 <img src="${recipe.image}" alt="${recipe.title}" class="recipe__img" />
@@ -26,13 +29,11 @@ export function renderRecipe(recipe) {
   <svg class="recipe__info-icon">
     <use href="${icons}#icon-users"></use>
   </svg>
-  <span class="recipe__info-data recipe__info-data--people">${
-    recipe.servings
-  }</span>
+  <span class="recipe__info-data recipe__info-data--people">${servings}</span>
   <span class="recipe__info-text">servings</span>
 
   <div class="recipe__info-buttons">
-    <button class="btn--tiny btn--increase-servings">
+    <button class="btn--tiny btn--decrease-servings">
       <svg>
         <use href="${icons}#icon-minus-circle"></use>
       </svg>
@@ -104,7 +105,35 @@ ${recipe.ingredients
 </div>`;
   recipeContainer.innerHTML = '';
   recipeContainer.insertAdjacentHTML('afterbegin', html);
+  const btnIncrease = document.querySelector('.btn--increase-servings');
+  const btnDecrease = document.querySelector('.btn--decrease-servings');
+  btnIncrease.addEventListener('click', btnIncreaseHandler);
+  btnDecrease.addEventListener('click', btnDecreaseHandler);
+  btnDecrease.disabled = servings === 1 ? true : false;
+
+  function btnIncreaseHandler() {
+    servings = servings + 1;
+
+    newQuantity();
+    recipe.servings = servings;
+    renderRecipe(recipe);
+  }
+  function btnDecreaseHandler() {
+    servings = servings - 1;
+
+    newQuantity();
+    recipe.servings = servings;
+    renderRecipe(recipe);
+  }
+  function newQuantity() {
+    recipe.ingredients.forEach(ing => {
+      ing.quantity = (ing.quantity * servings) / recipe.servings;
+    });
+    // console.log(servings, 'kjhg');
+    // console.log(recipe.ingredients, 'jhg');
+  }
 }
+
 export function addHandlerRender(handler) {
   ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
 }
