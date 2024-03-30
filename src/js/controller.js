@@ -63,13 +63,13 @@ const timeout = function (s) {
 async function showRecipe() {
   try {
     const id = window.location.hash.slice(1);
-    // console.log(id);
+
     if (!id) return;
 
     spinner(recipeContainer);
     await getRecipe(id);
     const { recipe } = state;
-    //console.log(recipe, 'text', state);
+
     renderRecipe(recipe);
 
     // const res = await fetch(

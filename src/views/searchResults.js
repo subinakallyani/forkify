@@ -12,9 +12,8 @@ export function searchResultDisplay(results) {
   let displayItem = '';
   arrLength = results.length;
   numberOfPages = Math.ceil(arrLength / pageOffset);
-  console.log(pageNumber, 'xya');
+
   buttonStateHandler();
-  // console.log(arrLength, 'kkk');
 
   if (results.length === 0) {
     displayItem = `<div class="error">
@@ -85,9 +84,4 @@ function buttonStateHandler() {
   } else {
     nextBtn.classList.remove('invisible');
   }
-  console.log(pageNumber, 'mmmm');
-  // nextBtn.classList.toggle('invisible', pageNumber === 0);
-  // previousBtn.classList.toggle('invisible', pageNumber !== 0);
-  // nextBtn.classList.toggle('invisible', pageNumber === numberOfPages - 1);
-  // nextBtn.disabled = pageNumber === numberOfPages - 1 ? true : false;
 }
