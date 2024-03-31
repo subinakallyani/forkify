@@ -1,7 +1,7 @@
 import icons from '../img/icons.svg';
 import { Fraction } from 'fractional';
 import { renderError } from './spinner';
-console.log({ Fraction }, 'yyyy');
+
 const recipeContainer = document.querySelector('.recipe');
 
 export function renderRecipe(recipe) {
@@ -63,8 +63,6 @@ export function renderRecipe(recipe) {
 <ul class="recipe__ingredient-list">
 ${recipe.ingredients
   .map(ing => {
-    //console.log(ing, 'subina');
-    //console.log(recipe.ingredients, 'gggg');
     return `
     <li class="recipe__ingredient">
     <svg class="recipe__icon">
@@ -129,8 +127,6 @@ ${recipe.ingredients
     recipe.ingredients.forEach(ing => {
       ing.quantity = (ing.quantity * servings) / recipe.servings;
     });
-    // console.log(servings, 'kjhg');
-    // console.log(recipe.ingredients, 'jhg');
   }
 }
 
