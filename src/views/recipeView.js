@@ -1,9 +1,43 @@
 import icons from '../img/icons.svg';
 import { Fraction } from 'fractional';
 import { renderError } from './spinner';
-console.log({ Fraction }, 'yyyy');
+
 const recipeContainer = document.querySelector('.recipe');
+let servings = 0;
+function initiateEventListner(recipe) {
+  const btnIncrease = document.querySelector('.btn--increase-servings');
+  const btnDecrease = document.querySelector('.btn--decrease-servings');
+  btnIncrease.addEventListener('click', () => {
+    btnIncreaseHandler(recipe);
+  });
+  btnDecrease.addEventListener('click', () => {
+    btnDecreaseHandler(recipe);
+  });
+  btnDecrease.disabled = servings === 1 ? true : false;
+}
+function btnIncreaseHandler(recipe) {
+  servings = servings + 1;
+
+  newQuantity(recipe);
+  recipe.servings = servings;
+  renderRecipe(recipe);
+}
+function btnDecreaseHandler(recipe) {
+  servings = servings - 1;
+
+  newQuantity(recipe);
+  recipe.servings = servings;
+  renderRecipe(recipe);
+}
+function newQuantity(recipe) {
+  recipe.ingredients.forEach(ing => {
+    ing.quantity = (ing.quantity * servings) / recipe.servings;
+  });
+}
+
 export function renderRecipe(recipe) {
+  servings = recipe.servings;
+
   const html = `
 <figure class="recipe__fig">
 <img src="${recipe.image}" alt="${recipe.title}" class="recipe__img" />
@@ -26,13 +60,11 @@ export function renderRecipe(recipe) {
   <svg class="recipe__info-icon">
     <use href="${icons}#icon-users"></use>
   </svg>
-  <span class="recipe__info-data recipe__info-data--people">${
-    recipe.servings
-  }</span>
+  <span class="recipe__info-data recipe__info-data--people">${servings}</span>
   <span class="recipe__info-text">servings</span>
 
   <div class="recipe__info-buttons">
-    <button class="btn--tiny btn--increase-servings">
+    <button class="btn--tiny btn--decrease-servings">
       <svg>
         <use href="${icons}#icon-minus-circle"></use>
       </svg>
@@ -62,8 +94,6 @@ export function renderRecipe(recipe) {
 <ul class="recipe__ingredient-list">
 ${recipe.ingredients
   .map(ing => {
-    //console.log(ing, 'subina');
-    //console.log(recipe.ingredients, 'gggg');
     return `
     <li class="recipe__ingredient">
     <svg class="recipe__icon">
@@ -104,7 +134,10 @@ ${recipe.ingredients
 </div>`;
   recipeContainer.innerHTML = '';
   recipeContainer.insertAdjacentHTML('afterbegin', html);
+
+  initiateEventListner(recipe);
 }
+
 export function addHandlerRender(handler) {
   ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
 }

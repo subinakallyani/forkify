@@ -217,7 +217,7 @@ searchContainer.addEventListener('submit', async e => {
   e.preventDefault();
   spinner(searchResults);
   await searchDataResult(searchBox.value);
-  // console.log(e, 'sdf', state.search.results);
+
   searchResultDisplay(state.search.results);
 
   // const searchResult = state.search.results
