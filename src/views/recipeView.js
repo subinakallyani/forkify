@@ -3,9 +3,40 @@ import { Fraction } from 'fractional';
 import { renderError } from './spinner';
 
 const recipeContainer = document.querySelector('.recipe');
+let servings = 0;
+function initiateEventListner(recipe) {
+  const btnIncrease = document.querySelector('.btn--increase-servings');
+  const btnDecrease = document.querySelector('.btn--decrease-servings');
+  btnIncrease.addEventListener('click', () => {
+    btnIncreaseHandler(recipe);
+  });
+  btnDecrease.addEventListener('click', () => {
+    btnDecreaseHandler(recipe);
+  });
+  btnDecrease.disabled = servings === 1 ? true : false;
+}
+function btnIncreaseHandler(recipe) {
+  servings = servings + 1;
+
+  newQuantity(recipe);
+  recipe.servings = servings;
+  renderRecipe(recipe);
+}
+function btnDecreaseHandler(recipe) {
+  servings = servings - 1;
+
+  newQuantity(recipe);
+  recipe.servings = servings;
+  renderRecipe(recipe);
+}
+function newQuantity(recipe) {
+  recipe.ingredients.forEach(ing => {
+    ing.quantity = (ing.quantity * servings) / recipe.servings;
+  });
+}
 
 export function renderRecipe(recipe) {
-  let servings = recipe.servings;
+  servings = recipe.servings;
 
   const html = `
 <figure class="recipe__fig">
@@ -103,31 +134,8 @@ ${recipe.ingredients
 </div>`;
   recipeContainer.innerHTML = '';
   recipeContainer.insertAdjacentHTML('afterbegin', html);
-  const btnIncrease = document.querySelector('.btn--increase-servings');
-  const btnDecrease = document.querySelector('.btn--decrease-servings');
-  btnIncrease.addEventListener('click', btnIncreaseHandler);
-  btnDecrease.addEventListener('click', btnDecreaseHandler);
-  btnDecrease.disabled = servings === 1 ? true : false;
 
-  function btnIncreaseHandler() {
-    servings = servings + 1;
-
-    newQuantity();
-    recipe.servings = servings;
-    renderRecipe(recipe);
-  }
-  function btnDecreaseHandler() {
-    servings = servings - 1;
-
-    newQuantity();
-    recipe.servings = servings;
-    renderRecipe(recipe);
-  }
-  function newQuantity() {
-    recipe.ingredients.forEach(ing => {
-      ing.quantity = (ing.quantity * servings) / recipe.servings;
-    });
-  }
+  initiateEventListner(recipe);
 }
 
 export function addHandlerRender(handler) {
