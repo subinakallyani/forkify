@@ -1,12 +1,17 @@
 import icons from '../img/icons.svg';
 import { Fraction } from 'fractional';
 import { renderError } from './spinner';
+import { addBookmark } from '../model';
+import { bookmarkController } from '../js/controller';
 
 const recipeContainer = document.querySelector('.recipe');
+
 let servings = 0;
 function initiateEventListner(recipe) {
   const btnIncrease = document.querySelector('.btn--increase-servings');
   const btnDecrease = document.querySelector('.btn--decrease-servings');
+  const btnBookmark = document.querySelector('.btn--bookmark');
+
   btnIncrease.addEventListener('click', () => {
     btnIncreaseHandler(recipe);
   });
@@ -14,6 +19,9 @@ function initiateEventListner(recipe) {
     btnDecreaseHandler(recipe);
   });
   btnDecrease.disabled = servings === 1 ? true : false;
+  btnBookmark.addEventListener('click', () => {
+    bookmarkController(recipe);
+  });
 }
 function btnIncreaseHandler(recipe) {
   servings = servings + 1;
@@ -82,9 +90,11 @@ export function renderRecipe(recipe) {
     <use href="${icons}#icon-user"></use>
   </svg>
 </div>
-<button class="btn--round">
+<button class="btn--round btn--bookmark">
   <svg class="">
-    <use href="${icons}#icon-bookmark-fill"></use>
+    <use href="${icons}#icon-bookmark${
+    recipe.bookMark === true ? '-fill' : ''
+  }"></use>
   </svg>
 </button>
 </div>
@@ -94,8 +104,7 @@ export function renderRecipe(recipe) {
 <ul class="recipe__ingredient-list">
 ${recipe.ingredients
   .map(ing => {
-    return `
-    <li class="recipe__ingredient">
+    return `<li class="recipe__ingredient">
     <svg class="recipe__icon">
       <use href="${icons}#icon-check"></use>
     </svg>
@@ -106,14 +115,11 @@ ${recipe.ingredients
       <span class="recipe__unit">${ing.unit}</span>
      ${ing.description}
     </div>
-  </li>
-  `;
+  </li>`;
   })
-  .join('')};
-  
-</ul>
+  .join('')}
+  </ul>
 </div>
-
 <div class="recipe__directions">
 <h2 class="heading--2">How to cook it</h2>
 <p class="recipe__directions-text">
