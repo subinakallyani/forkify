@@ -1,5 +1,6 @@
 import { API_URL } from './js/config.js';
 import { getJSON } from './js/helpers.js';
+import { bookmarkDisplay } from './views/bookmark.js';
 
 export default state = {
   recipe: {},
@@ -54,12 +55,14 @@ export async function searchResult(search) {
 }
 export function addBookmark(recipe) {
   state.bookmarks.push(recipe);
-
-  console.log(state.bookmarks, 'kkk');
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
 }
 export function removeBookmark(recipe) {
   state.bookmarks = state.bookmarks.filter(
     bookmark => bookmark.id !== recipe.id
   );
-  console.log('removed', state.bookmarks);
+}
+export function retrieveBookmarks() {
+  const bookmark = localStorage.getItem('bookmarks');
+  state.bookmarks = JSON.parse(bookmark) || [];
 }

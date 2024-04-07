@@ -1,7 +1,12 @@
 import icons from 'url:../img/icons.svg';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import state, { getRecipe, removeBookmark, searchResult } from '../model';
+import state, {
+  getRecipe,
+  removeBookmark,
+  retrieveBookmarks,
+  searchResult,
+} from '../model';
 import { renderRecipe } from '../views/recipeView';
 import { spinner } from '../views/spinner';
 import { renderError } from '../views/spinner';
@@ -9,8 +14,7 @@ import { addHandlerRender } from '../views/recipeView';
 import { searchResult } from '../model';
 import { resetPageNumber, searchResultDisplay } from '../views/searchResults';
 import { addBookmark } from '../model';
-
-// console.log(icons, 'tested');
+import { bookmarkDisplay } from '../views/bookmark';
 
 const recipeContainer = document.querySelector('.recipe');
 const searchContainer = document.querySelector('.search');
@@ -58,16 +62,24 @@ searchContainer.addEventListener('submit', async e => {
   resetPageNumber();
   searchResultDisplay(state.search.results);
 });
-addHandlerRender(showRecipe);
+
 export function bookmarkController(recipe) {
-  console.log(recipe, 'llll');
   if (recipe.bookMark === true) {
     removeBookmark(recipe);
     recipe.bookMark = false;
     renderRecipe(recipe);
+    bookmarkDisplay(state.bookmarks);
   } else {
     addBookmark(recipe);
     recipe.bookMark = true;
     renderRecipe(recipe);
+    bookmarkDisplay(state.bookmarks);
   }
 }
+function init() {
+  addHandlerRender(showRecipe);
+  retrieveBookmarks();
+  bookmarkDisplay(state.bookmarks);
+  console.log(state.bookmarks, 'kkkk');
+}
+init();
