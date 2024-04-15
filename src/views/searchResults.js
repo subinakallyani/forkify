@@ -8,6 +8,9 @@ let arrLength = 0;
 let pageNumber = 0;
 let pageOffset = 10;
 let numberOfPages = 0;
+export function resetPageNumber() {
+  pageNumber = 0;
+}
 export function searchResultDisplay(results) {
   let displayItem = '';
   arrLength = results.length;

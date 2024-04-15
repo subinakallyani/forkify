@@ -1,5 +1,6 @@
 import { API_URL } from './js/config.js';
 import { getJSON } from './js/helpers.js';
+import { bookmarkDisplay } from './views/bookmark.js';
 
 export default state = {
   recipe: {},
@@ -7,19 +8,12 @@ export default state = {
     searchReq: '',
     results: [],
   },
+  bookmarks: [],
 };
 
 export async function getRecipe(id) {
   try {
     const data = await getJSON(`${API_URL}${id}`);
-    // const res = await fetch(`${API_URL}/${id}`);
-    // //'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcc40'
-    // //console.log(res);
-    // const data = await res.json();
-    // if (!res.ok) {
-    //   throw new Error(`${data.message} (${res.status})`);
-    // }
-    //console.log(res, data);
 
     let { recipe } = data.data;
     recipe = {
@@ -33,8 +27,12 @@ export async function getRecipe(id) {
       title: recipe.title,
     };
     state.recipe = recipe;
+    state.bookmarks.forEach(items => {
+      if (items.id === state.recipe.id) {
+        state.recipe.bookMark = true;
+      }
+    });
   } catch (err) {
-    //console.log(err);
     throw err;
   }
 }
@@ -42,7 +40,6 @@ export async function searchResult(search) {
   try {
     state.search.searchReq = search;
     const searchData = await getJSON(`${API_URL}?search=${search}`);
-    //console.log(searchData, 'hji');
 
     state.search.results = searchData.data.recipes.map(ing => {
       return {
@@ -52,10 +49,20 @@ export async function searchResult(search) {
         title: ing.title,
       };
     });
-    //console.log(state.search.results, 'kkljo');
   } catch (err) {
-    //console.log(err);
     throw err;
   }
-  //throw err;
+}
+export function addBookmark(recipe) {
+  state.bookmarks.push(recipe);
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+}
+export function removeBookmark(recipe) {
+  state.bookmarks = state.bookmarks.filter(
+    bookmark => bookmark.id !== recipe.id
+  );
+}
+export function retrieveBookmarks() {
+  const bookmark = localStorage.getItem('bookmarks');
+  state.bookmarks = JSON.parse(bookmark) || [];
 }
