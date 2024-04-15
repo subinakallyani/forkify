@@ -33,5 +33,4 @@ export function bookmarkDisplay(bookmarked) {
   }
   bookmarkContainer.innerHTML = '';
   bookmarkContainer.insertAdjacentHTML('afterbegin', bookmarkItem);
-  console.log(bookmarked, 'nnnn');
 }
