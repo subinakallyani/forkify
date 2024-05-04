@@ -85,7 +85,7 @@ export function renderRecipe(recipe) {
   </div>
 </div>
 
-<div class="recipe__user-generated">
+<div class="recipe__user-generated ${recipe.key ? '' : 'hidden'}">
   <svg>
     <use href="${icons}#icon-user"></use>
   </svg>

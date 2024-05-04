@@ -2,6 +2,7 @@ import icons from 'url:../img/icons.svg';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import state, {
+  addNewRecipe,
   getRecipe,
   removeBookmark,
   retrieveBookmarks,
@@ -15,11 +16,20 @@ import { searchResult } from '../model';
 import { resetPageNumber, searchResultDisplay } from '../views/searchResults';
 import { addBookmark } from '../model';
 import { bookmarkDisplay } from '../views/bookmark';
+import {
+  addRecipeHandler,
+  loadingHandler,
+  recipeWindow,
+  sucessMessage,
+  uploadRecipe,
+} from '../views/addRecipe';
 
 const recipeContainer = document.querySelector('.recipe');
 const searchContainer = document.querySelector('.search');
 const searchBox = document.querySelector('.search__field');
 const searchResults = document.querySelector('.results');
+const form = document.querySelector('.upload');
+const loadingModal = document.querySelector('.loading__modal');
 
 const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -83,3 +93,18 @@ function init() {
   console.log(state.bookmarks, 'kkkk');
 }
 init();
+addRecipeHandler();
+export async function addNewRecipeController(newRecipe) {
+  recipeWindow();
+  loadingHandler();
+  spinner(loadingModal);
+
+  await addNewRecipe(newRecipe);
+  // console.log(state, 'subina');
+  sucessMessage();
+
+  bookmarkDisplay(state.bookmarks);
+  renderRecipe(state.recipe);
+  window.history.pushState(null, '', `#${state.recipe.id}`);
+  // window.history.back();
+}

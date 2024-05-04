@@ -26,6 +26,7 @@ export function bookmarkDisplay(bookmarked) {
         </h4>
         <p class="preview__publisher">${item.publisher}</p>
       </div>
+      
     </a>
     </li>`;
       })
@@ -33,5 +34,4 @@ export function bookmarkDisplay(bookmarked) {
   }
   bookmarkContainer.innerHTML = '';
   bookmarkContainer.insertAdjacentHTML('afterbegin', bookmarkItem);
-  console.log(bookmarked, 'nnnn');
 }
