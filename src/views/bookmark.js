@@ -26,6 +26,7 @@ export function bookmarkDisplay(bookmarked) {
         </h4>
         <p class="preview__publisher">${item.publisher}</p>
       </div>
+      
     </a>
     </li>`;
       })

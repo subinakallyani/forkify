@@ -105,4 +105,6 @@ export async function addNewRecipeController(newRecipe) {
 
   bookmarkDisplay(state.bookmarks);
   renderRecipe(state.recipe);
+  window.history.pushState(null, '', `#${state.recipe.id}`);
+  // window.history.back();
 }

@@ -1,7 +1,8 @@
 import { API_URL, KEY } from './js/config.js';
-import { getJSON } from './js/helpers.js';
+// import { getJSON } from './js/helpers.js';
 import { bookmarkDisplay } from './views/bookmark.js';
-import { sendJSON } from './js/helpers.js';
+// import { sendJSON } from './js/helpers.js';
+import { AJAX } from './js/helpers.js';
 export default state = {
   recipe: {},
   search: {
@@ -20,13 +21,14 @@ function formatAPIResponse(recipe) {
     servings: recipe.servings,
     sourceUrl: recipe.source_url,
     title: recipe.title,
+    ...(recipe.key && { key: recipe.key }),
   };
   return recipe;
 }
 
 export async function getRecipe(id) {
   try {
-    const data = await getJSON(`${API_URL}${id}`);
+    const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
 
     let { recipe } = data.data;
 
@@ -45,7 +47,7 @@ export async function getRecipe(id) {
 export async function searchResult(search) {
   try {
     state.search.searchReq = search;
-    const searchData = await getJSON(`${API_URL}?search=${search}`);
+    const searchData = await AJAX(`${API_URL}?search=${search}&key=${KEY}`);
 
     state.search.results = searchData.data.recipes.map(ing => {
       return {
@@ -53,6 +55,7 @@ export async function searchResult(search) {
         image: ing.image_url,
         publisher: ing.publisher,
         title: ing.title,
+        ...(ing.key && { key: ing.key }),
       };
     });
   } catch (err) {
@@ -78,8 +81,8 @@ export async function addNewRecipe(newRecipe) {
     .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
     .map(ing => {
       const [quantity, unit, discription] = ing[1]
-        .replaceAll(' ', '')
-        .split(',');
+        .split(',')
+        .map(el => el.trim());
       return { quantity: quantity ? +quantity : null, unit, discription };
     });
   const recipe = {
@@ -91,7 +94,7 @@ export async function addNewRecipe(newRecipe) {
     servings: +newRecipe.servings,
     newIngredients,
   };
-  const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+  const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
 
   const formattedRecipe = formatAPIResponse(data.data.recipe);
   formattedRecipe.bookMark = true;

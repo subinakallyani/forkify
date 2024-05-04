@@ -1,3 +1,24 @@
+export const AJAX = async function (url, uploadData = undefined) {
+  try {
+    const res = await (uploadData
+      ? fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(uploadData),
+        })
+      : fetch(url));
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(`${data.message} (${res.status})`);
+    }
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+/*
 export async function getJSON(url) {
   try {
     const res = await fetch(url);
@@ -31,4 +52,4 @@ export async function sendJSON(url, uploadData) {
   } catch (err) {
     throw err;
   }
-}
+}*/
